@@ -16,6 +16,7 @@ public class App {
 
     // Pure RDD based approach
     JavaSparkContext sc = new JavaSparkContext("local[1]", "testing");
+
     JavaRDD<String> readmeRdd = sc.textFile(logFile);
     JavaRDD<Integer> lengthRdd = readmeRdd.map(String::length);
     Integer combinedLength = lengthRdd.reduce((v1, v2) -> v1 + v2);
