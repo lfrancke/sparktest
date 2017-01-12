@@ -9,7 +9,12 @@ import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Encoders;
 import org.apache.spark.sql.SQLContext;
 
-public class App {
+/**
+ * Simple Java application that does a simple count of the length of all words in a file.
+ *
+ * It uses three different APIs for this task: RDD, DataFrame (using SQL and a pure version) and Dataset
+ */
+public class JavaApp {
 
   public static void main(String... args) {
     String logFile = "README.md";
@@ -30,10 +35,10 @@ public class App {
     Long combinedLengthLong = sql.first().getLong(0);
     System.out.println(combinedLengthLong);
 
-    // This will fail because it's a long and not an int:
+    // This will fail at runtime because it's a long and not an int:
     //combinedLength = sql.first().getInt(0);
 
-    // Dataframe approach
+    // DataFrame approach
     JavaRDD<Integer> lengthRdd2 = df.javaRDD().map(value -> value.getString(0).length());
     combinedLength = lengthRdd2.reduce((v1, v2) -> v1 + v2);
     System.out.println(combinedLength);
